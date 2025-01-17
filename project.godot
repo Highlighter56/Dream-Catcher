@@ -11,8 +11,18 @@ config_version=5
 [application]
 
 config/name="DreamCatcher"
+run/main_scene="res://scenses/game.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+
+[filesystem]
+
+import/fbx/enabled=false
 
 [rendering]
 
