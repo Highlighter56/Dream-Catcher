@@ -12,13 +12,13 @@ config_version=5
 
 config/name="DreamCatcher"
 run/main_scene="res://scenses/game.tscn"
-config/features=PackedStringArray("4.2", "Mobile")
+config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=640
-window/size/viewport_height=360
+window/size/viewport_width=1280
+window/size/viewport_height=780
 
 [filesystem]
 
@@ -27,3 +27,4 @@ import/fbx/enabled=false
 [rendering]
 
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0.129303, 0.604623, 0.760184, 1)

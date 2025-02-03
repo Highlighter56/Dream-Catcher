@@ -1,10 +1,20 @@
-[gd_scene load_steps=10 format=3 uid="uid://4g4hmpt2jeo8"]
+[gd_scene load_steps=11 format=3 uid="uid://4g4hmpt2jeo8"]
 
-[ext_resource type="Script" path="res://scripts/game.gd" id="1_5fdun"]
 [ext_resource type="Texture2D" uid="uid://barkmp3q61krm" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_diff_4k.png" id="2_hebcq"]
 [ext_resource type="Texture2D" uid="uid://ccf2yo6hxgx87" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_nor_gl_4k.png" id="3_u48bi"]
 [ext_resource type="Texture2D" uid="uid://d1rmobdi2crgl" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_rough_4k.png" id="4_5nhse"]
-[ext_resource type="PackedScene" uid="uid://bor75hwsr8e" path="res://scenses/player.tscn" id="5_7s5e3"]
+[ext_resource type="PackedScene" uid="uid://8i6cpk5bnffs" path="res://scenses/player_v_2.tscn" id="5_uhyxa"]
+
+[sub_resource type="GDScript" id="GDScript_yrpaa"]
+script/source = "extends Node3D
+
+
+func _ready():
+	pass
+
+func _process(delta):
+	pass
+"
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_sgp1q"]
 
@@ -22,14 +32,17 @@ size = Vector2(100, 100)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_kur4m"]
 
+[sub_resource type="SphereMesh" id="SphereMesh_m31xy"]
+
 [node name="Game" type="Node3D"]
-script = ExtResource("1_5fdun")
+script = SubResource("GDScript_yrpaa")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.929534, 0.235089, 0.284078, -0.19678, -0.335274, 0.921341, 0.311841, -0.912318, -0.265388, 0, 3.84223, 0)
+transform = Transform3D(0.768254, 0.406459, -0.494547, 0.559053, -0.0496655, 0.827643, 0.311841, -0.912318, -0.265388, -15.7996, 9.46931, 0)
 shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("WorldBoundaryShape3D_sgp1q")
@@ -39,10 +52,273 @@ mesh = SubResource("PlaneMesh_h82b1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21391, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_kur4m")
 
-[node name="AnimatableBody3D" parent="." instance=ExtResource("5_7s5e3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.50928, 5.37931, 0)
+[node name="Player_V2" parent="." instance=ExtResource("5_uhyxa")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.00017e-07, -0.7, 10.295)
+script = null
 
-[node name="Camera3D" type="Camera3D" parent="AnimatableBody3D"]
-transform = Transform3D(-4.179e-08, 0.293223, -0.956044, 1.28172e-08, 0.956044, 0.293223, 1, 0, -4.37114e-08, -8.89242, 3.60513, 0)
+[node name="Camera3D" type="Camera3D" parent="Player_V2"]
+transform = Transform3D(-4.3385e-08, 0.121974, -0.992533, 5.33165e-09, 0.992533, 0.121974, 1, -8.88178e-15, -4.37114e-08, -10.2439, 4.46125, 0)
+
+[node name="Folder_Grid_Points" type="Node3D" parent="."]
+
+[node name="Column5" type="Node3D" parent="Folder_Grid_Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 7)
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Folder_Grid_Points/Column5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Folder_Grid_Points/Column5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Folder_Grid_Points/Column5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Folder_Grid_Points/Column5"]
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Folder_Grid_Points/Column5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Folder_Grid_Points/Column5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Folder_Grid_Points/Column5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="Column6" type="Node3D" parent="Folder_Grid_Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 7)
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Folder_Grid_Points/Column6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Folder_Grid_Points/Column6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Folder_Grid_Points/Column6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Folder_Grid_Points/Column6"]
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Folder_Grid_Points/Column6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Folder_Grid_Points/Column6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Folder_Grid_Points/Column6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="Column7" type="Node3D" parent="Folder_Grid_Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 7)
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Folder_Grid_Points/Column7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Folder_Grid_Points/Column7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Folder_Grid_Points/Column7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Folder_Grid_Points/Column7"]
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Folder_Grid_Points/Column7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Folder_Grid_Points/Column7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Folder_Grid_Points/Column7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="Column" type="Node3D" parent="Folder_Grid_Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Folder_Grid_Points/Column"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Folder_Grid_Points/Column"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Folder_Grid_Points/Column"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Folder_Grid_Points/Column"]
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Folder_Grid_Points/Column"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Folder_Grid_Points/Column"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Folder_Grid_Points/Column"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="Column2" type="Node3D" parent="Folder_Grid_Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 7)
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Folder_Grid_Points/Column2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Folder_Grid_Points/Column2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Folder_Grid_Points/Column2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Folder_Grid_Points/Column2"]
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Folder_Grid_Points/Column2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Folder_Grid_Points/Column2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Folder_Grid_Points/Column2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="Column3" type="Node3D" parent="Folder_Grid_Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 7)
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Folder_Grid_Points/Column3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Folder_Grid_Points/Column3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Folder_Grid_Points/Column3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Folder_Grid_Points/Column3"]
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Folder_Grid_Points/Column3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Folder_Grid_Points/Column3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Folder_Grid_Points/Column3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="Column4" type="Node3D" parent="Folder_Grid_Points"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 7)
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Folder_Grid_Points/Column4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Folder_Grid_Points/Column4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Folder_Grid_Points/Column4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Folder_Grid_Points/Column4"]
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Folder_Grid_Points/Column4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Folder_Grid_Points/Column4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Folder_Grid_Points/Column4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -12, 0)
+mesh = SubResource("SphereMesh_m31xy")
+skeleton = NodePath("../..")
