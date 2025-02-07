@@ -1,44 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://8i6cpk5bnffs"]
 
 [ext_resource type="Texture2D" uid="uid://cguxjojjuggml" path="res://assests/textures/gray_rocks/gray_rocks_diff_4k.png" id="1_ich5w"]
+[ext_resource type="Script" path="res://scripts/player_v2.gd" id="1_rpp4i"]
 [ext_resource type="Texture2D" uid="uid://bmg2howi3srtm" path="res://assests/textures/gray_rocks/gray_rocks_nor_gl_4k.png" id="2_g0d2w"]
 [ext_resource type="Texture2D" uid="uid://ceel8r3llva28" path="res://assests/textures/gray_rocks/gray_rocks_rough_4k.png" id="3_3gpd5"]
-
-[sub_resource type="GDScript" id="GDScript_cfm11"]
-script/source = "extends CharacterBody3D
-
-
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting(\"physics/3d/default_gravity\")
-
-
-func _physics_process(delta):
-	# Add the gravity.
-	#if not is_on_floor():
-		#velocity.y -= gravity * delta
-
-	# Handle jump.
-	#if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
-		#velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
-
-	print(Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\"))
-
-	move_and_slide()
-"
 
 [sub_resource type="PrismMesh" id="PrismMesh_lij2c"]
 size = Vector3(4, 8, 0.25)
@@ -64,10 +29,10 @@ uv1_offset = Vector3(-0.56, 0.24, -0.675)
 [sub_resource type="SphereShape3D" id="SphereShape3D_rb7k6"]
 
 [node name="Player_V2" type="CharacterBody3D"]
-script = SubResource("GDScript_cfm11")
+script = ExtResource("1_rpp4i")
 
 [node name="Pivot" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.16974, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.17, 0, 0)
 
 [node name="Skin" type="MeshInstance3D" parent="Pivot"]
 transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 0, 0.623279, 0, 0)

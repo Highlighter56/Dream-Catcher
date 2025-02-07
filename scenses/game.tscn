@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://4g4hmpt2jeo8"]
+[gd_scene load_steps=14 format=3 uid="uid://4g4hmpt2jeo8"]
 
 [ext_resource type="Texture2D" uid="uid://barkmp3q61krm" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_diff_4k.png" id="2_hebcq"]
 [ext_resource type="Texture2D" uid="uid://ccf2yo6hxgx87" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_nor_gl_4k.png" id="3_u48bi"]
@@ -10,11 +10,20 @@
 [sub_resource type="GDScript" id="GDScript_yrpaa"]
 script/source = "extends Node3D
 
+@onready var path: PathFollow3D = %MainAsteriodPath
 
-func _ready():
+const MOVE_SPEED:float = 50
+
+func _ready() -> void:
 	pass
 
-func _process(delta):
+func _physics_process(delta: float) -> void:
+	path.progress += MOVE_SPEED*delta
+	#print(path.position)
+
+
+func _on_area_3d_area_entered(area: Area3D) -> void:
+	#print(\"Reset Asteriod\")
 	pass
 "
 
@@ -33,6 +42,15 @@ material = SubResource("StandardMaterial3D_p6idc")
 size = Vector2(100, 100)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_kur4m"]
+
+[sub_resource type="Curve3D" id="Curve3D_ecnsv"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, -500, 0, 0, 0, 0, 0, 0, 0, 0, 50),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6gylj"]
 
 [node name="Game" type="Node3D"]
 script = SubResource("GDScript_yrpaa")
@@ -57,7 +75,6 @@ mesh = SubResource("CapsuleMesh_kur4m")
 
 [node name="Player_V2" parent="." instance=ExtResource("5_uhyxa")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.00017e-07, -0.7, 10.295)
-script = null
 
 [node name="Camera3D" type="Camera3D" parent="Player_V2"]
 transform = Transform3D(-4.3385e-08, 0.121974, -0.992533, 5.33165e-09, 0.992533, 0.121974, 1, -8.88178e-15, -4.37114e-08, -10.2439, 4.46125, 0)
@@ -66,5 +83,21 @@ transform = Transform3D(-4.3385e-08, 0.121974, -0.992533, 5.33165e-09, 0.992533,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
 visible = false
 
-[node name="Asteroid" parent="." instance=ExtResource("6_r2out")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.546168, -7.02105)
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_ecnsv")
+
+[node name="MainAsteriodPath" type="PathFollow3D" parent="Path3D"]
+unique_name_in_owner = true
+transform = Transform3D(-0.999994, 0, -8.74227e-08, 0, 0.999995, 0, 8.74222e-08, 0, -1, 0, 0, -500)
+
+[node name="Asteroid" parent="Path3D/MainAsteriodPath" instance=ExtResource("6_r2out")]
+transform = Transform3D(0.260161, 2.98995e-05, 0.965571, -0.280875, 0.956763, 0.0756485, -0.923811, -0.290882, 0.248918, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50)
+shape = SubResource("SphereShape3D_6gylj")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
+[connection signal="area_entered" from="Area3D" to="Path3D/MainAsteriodPath/Asteroid" method="_on_area_3d_area_entered"]
