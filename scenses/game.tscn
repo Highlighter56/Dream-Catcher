@@ -1,8 +1,5 @@
-[gd_scene load_steps=14 format=3 uid="uid://4g4hmpt2jeo8"]
+[gd_scene load_steps=7 format=3 uid="uid://4g4hmpt2jeo8"]
 
-[ext_resource type="Texture2D" uid="uid://barkmp3q61krm" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_diff_4k.png" id="2_hebcq"]
-[ext_resource type="Texture2D" uid="uid://ccf2yo6hxgx87" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_nor_gl_4k.png" id="3_u48bi"]
-[ext_resource type="Texture2D" uid="uid://d1rmobdi2crgl" path="res://assests/textures/mosaic_tiles/marble_mosaic_tiles_rough_4k.png" id="4_5nhse"]
 [ext_resource type="PackedScene" uid="uid://crm8r6mpelhr8" path="res://scenses/grid_map.tscn" id="5_msg7q"]
 [ext_resource type="PackedScene" uid="uid://8i6cpk5bnffs" path="res://scenses/player_v2.tscn" id="5_uhyxa"]
 [ext_resource type="PackedScene" uid="uid://cyj1qleqsi2md" path="res://scenses/asteroid.tscn" id="6_r2out"]
@@ -27,22 +24,6 @@ func _on_area_3d_area_entered(area: Area3D) -> void:
 	pass
 "
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_sgp1q"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p6idc"]
-albedo_texture = ExtResource("2_hebcq")
-albedo_texture_force_srgb = true
-roughness_texture = ExtResource("4_5nhse")
-normal_enabled = true
-normal_texture = ExtResource("3_u48bi")
-uv1_scale = Vector3(11.235, 11.235, 11.235)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_h82b1"]
-material = SubResource("StandardMaterial3D_p6idc")
-size = Vector2(100, 100)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_kur4m"]
-
 [sub_resource type="Curve3D" id="Curve3D_ecnsv"]
 _data = {
 "points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, -500, 0, 0, 0, 0, 0, 0, 0, 0, 50),
@@ -59,22 +40,8 @@ script = SubResource("GDScript_yrpaa")
 transform = Transform3D(0.768254, 0.406459, -0.494547, 0.559053, -0.0496655, 0.827643, 0.311841, -0.912318, -0.265388, -15.7996, 9.46931, 0)
 shadow_enabled = true
 
-[node name="Ground" type="StaticBody3D" parent="."]
-visible = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("WorldBoundaryShape3D_sgp1q")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("PlaneMesh_h82b1")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21391, 0)
-visible = false
-mesh = SubResource("CapsuleMesh_kur4m")
-
 [node name="Player_V2" parent="." instance=ExtResource("5_uhyxa")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 9.00017e-07, -0.7, 10.295)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player_V2"]
 transform = Transform3D(-4.3385e-08, 0.121974, -0.992533, 5.33165e-09, 0.992533, 0.121974, 1, -8.88178e-15, -4.37114e-08, -10.2439, 4.46125, 0)
@@ -88,7 +55,7 @@ curve = SubResource("Curve3D_ecnsv")
 
 [node name="MainAsteriodPath" type="PathFollow3D" parent="Path3D"]
 unique_name_in_owner = true
-transform = Transform3D(-0.999994, 0, -8.74227e-08, 0, 0.999995, 0, 8.74222e-08, 0, -1, 0, 0, -500)
+transform = Transform3D(-0.999994, 0, -8.74228e-08, 0, 0.999995, 0, 8.74223e-08, 0, -1, 0, 0, -500)
 
 [node name="Asteroid" parent="Path3D/MainAsteriodPath" instance=ExtResource("6_r2out")]
 transform = Transform3D(0.260161, 2.98995e-05, 0.965571, -0.280875, 0.956763, 0.0756485, -0.923811, -0.290882, 0.248918, 0, 0, 0)
