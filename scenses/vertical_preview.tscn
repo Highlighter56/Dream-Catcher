@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://b3gcww01148nr"]
+
+[ext_resource type="Script" path="res://scripts/two_d/vertical/player_2d_vertical.gd" id="1_avs8q"]
+[ext_resource type="Texture2D" uid="uid://ec30ugv00s74" path="res://assests/sprites/Door.png" id="2_30dgu"]
+[ext_resource type="AudioStream" uid="uid://dujcccecv87l2" path="res://assests/sounds/explosion.wav" id="3_c5y3p"]
+[ext_resource type="Script" path="res://scripts/two_d/horizontal/path_follow_2d.gd" id="3_q5wiu"]
+[ext_resource type="Texture2D" uid="uid://cuw52a0l88qyn" path="res://assests/sprites/Star.png" id="4_wdq14"]
+[ext_resource type="Script" path="res://scripts/two_d/horizontal/asteriod_2d.gd" id="5_ujehw"]
+
+[sub_resource type="Curve" id="Curve_1kbfa"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_28e48"]
+
+[sub_resource type="Curve2D" id="Curve2D_0f7fj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, -350, 0, 0, 0, 0, 0, 100)
+}
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhd2q"]
+radius = 24.794
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wsy85"]
+
+[node name="VerticalPreview" type="Node2D"]
+
+[node name="Player2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_avs8q")
+movment_curve = SubResource("Curve_1kbfa")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player2D"]
+texture = ExtResource("2_30dgu")
+region_enabled = true
+region_rect = Rect2(131, 73, 25, 23)
+
+[node name="Area2D" type="Area2D" parent="Player2D" groups=["player"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2D/Area2D"]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_28e48")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player2D"]
+stream = ExtResource("3_c5y3p")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -121)
+zoom = Vector2(4, 4)
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_0f7fj")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(0, -125.675)
+rotation = 1.5708
+progress = 224.325
+script = ExtResource("3_q5wiu")
+
+[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D/Area2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("4_wdq14")
+region_enabled = true
+region_rect = Rect2(64, 32, 32, 31)
+script = ExtResource("5_ujehw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
+shape = SubResource("CircleShape2D_uhd2q")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 100)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_wsy85")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -164.0
+offset_top = 45.0
+offset_right = 205.0
+offset_bottom = 68.0
+text = "For This Mode, Have the Resolution be 720,1280"
+
+[connection signal="area_entered" from="Player2D/Area2D" to="Player2D" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Path2D/PathFollow2D/Area2D" to="Path2D/PathFollow2D/Area2D/Sprite2D" method="_on_area_2d_area_entered"]

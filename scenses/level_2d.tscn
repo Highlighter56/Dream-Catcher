@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://cadk8bmkhvawd"]
+
+[ext_resource type="Script" path="res://scripts/two_d/horizontal/player_2d.gd" id="1_60eo0"]
+[ext_resource type="Texture2D" uid="uid://ec30ugv00s74" path="res://assests/sprites/Door.png" id="1_t7wf5"]
+[ext_resource type="Script" path="res://scripts/two_d/horizontal/path_follow_2d.gd" id="3_6vwlp"]
+[ext_resource type="Texture2D" uid="uid://cuw52a0l88qyn" path="res://assests/sprites/Star.png" id="3_7j5p6"]
+[ext_resource type="Script" path="res://scripts/two_d/horizontal/asteriod_2d.gd" id="3_nuvv5"]
+
+[sub_resource type="Curve2D" id="Curve2D_7jor0"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 300, 0, 0, 0, 0, 0, -125, 0)
+}
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ct3wx"]
+radius = 24.794
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tnjiw"]
+
+[node name="horizontal_preview" type="Node2D"]
+
+[node name="Player2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_60eo0")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player2D"]
+rotation = 1.5708
+texture = ExtResource("1_t7wf5")
+region_enabled = true
+region_rect = Rect2(131, 73, 25, 23)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(106, 0)
+zoom = Vector2(4, 4)
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_7jor0")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(222.612, 0)
+rotation = 3.14159
+progress = 77.3925
+script = ExtResource("3_6vwlp")
+
+[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D/Area2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("3_7j5p6")
+region_enabled = true
+region_rect = Rect2(64, 32, 32, 31)
+script = ExtResource("3_nuvv5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
+shape = SubResource("CircleShape2D_ct3wx")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-109, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_tnjiw")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -34.0
+offset_top = -86.0
+offset_right = 6.0
+offset_bottom = -63.0
+text = "For This Mode, Have the Resolution be 1280,720"
+
+[connection signal="area_entered" from="Area2D" to="Path2D/PathFollow2D/Area2D/Sprite2D" method="_on_area_2d_area_entered"]

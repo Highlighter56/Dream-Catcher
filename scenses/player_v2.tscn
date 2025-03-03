@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://8i6cpk5bnffs"]
 
 [ext_resource type="Texture2D" uid="uid://cguxjojjuggml" path="res://assests/textures/gray_rocks/gray_rocks_diff_4k.png" id="1_ich5w"]
-[ext_resource type="Script" path="res://scripts/player_v2.gd" id="1_rpp4i"]
+[ext_resource type="Script" path="res://scripts/three_d/player_v2.gd" id="1_rpp4i"]
 [ext_resource type="Texture2D" uid="uid://bmg2howi3srtm" path="res://assests/textures/gray_rocks/gray_rocks_nor_gl_4k.png" id="2_g0d2w"]
 [ext_resource type="Texture2D" uid="uid://ceel8r3llva28" path="res://assests/textures/gray_rocks/gray_rocks_rough_4k.png" id="3_3gpd5"]
 

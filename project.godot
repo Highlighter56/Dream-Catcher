@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=780
+window/size/viewport_width=780
+window/size/viewport_height=1280
 
 [filesystem]
 
@@ -26,5 +26,5 @@ import/fbx/enabled=false
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0.129303, 0.604623, 0.760184, 1)
