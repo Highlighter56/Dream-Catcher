@@ -17,14 +17,14 @@ var lane: int = 0:
 			#time=value
 
 func _ready() -> void:
-	pass
+	visible = true
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_left"):
-		print("Move Left")
+		#print("Move Left")
 		lane-=10
 	if Input.is_action_just_pressed("ui_right"):
-		print("Move Right")
+		#print("Move Right")
 		lane+=10
 	#print(position)
 

@@ -1,11 +1,18 @@
 extends Node2D
 
-@onready var audio_left: AudioStreamPlayer2D = $AudioStreamPlayer2D
-@onready var audio_right: AudioStreamPlayer2D = $AudioStreamPlayer2D2
+@onready var audio_left: AudioStreamPlayer2D = $Go_Left
+@onready var audio_right: AudioStreamPlayer2D = $Go_Right
+@onready var audio_coin: AudioStreamPlayer2D = $Coin
+@onready var audio_wrong_side: AudioStreamPlayer2D = $Wrong_Side
+@onready var player: CharacterBody2D = %Player
 
-#var side: int = 0
+var score: int = 0
+enum sides {LEFT, RIGHT}
+var correct_side: sides
 
 func _ready() -> void:
+	await get_tree().create_timer(1).timeout
+	correct_side = choose_side()
 	pass
 
 func _process(delta: float) -> void:
@@ -19,16 +26,34 @@ func _process(delta: float) -> void:
 
 
 func _on_progression_area_area_entered(area: Area2D) -> void:
-	if (randi_range(0,1) == 0):
-#		Go Left
-		audio_left.play()
-	else:
-#		Go Right
-		audio_right.play()
+	correct_side = choose_side()
 
 
 func _on_check_sides_area_entered(area: Area2D) -> void:
 	if area.is_in_group("asteriod"):
-		pass
-#		Check which side player is on
-#		either call the secon asteriod or not
+		print("Check Sides")
+		if (correct_side == sides.LEFT):
+			if (player.position.x < 0):
+				print("Correct Side")
+				audio_coin.play()
+			else:
+				print("Wrong Side")
+				audio_wrong_side.play()
+		else:
+			if (player.position.x > 0):
+				print("Correct Side")
+				audio_coin.play()
+			else:
+				print("Wrong Side")
+				audio_wrong_side.play()
+
+
+func choose_side() -> sides:
+	if (randi_range(0,1) == 0):
+#		Go Left
+		audio_left.play()
+		return sides.LEFT
+	else:
+#		Go Right
+		audio_right.play()
+		return sides.RIGHT

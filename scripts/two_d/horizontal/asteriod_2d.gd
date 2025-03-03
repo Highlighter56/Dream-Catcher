@@ -18,13 +18,13 @@ func _physics_process(delta: float) -> void:
 # Get New Spin
 func _on_progression_area_area_entered(area: Area2D) -> void:
 	if (!area.is_in_group("player")):
-		print("Change Spin")
+		#print("Change Spin")
 		setSpin()
 
 
 func setSpin() -> void:
 	rand_rotation = randSpin()
-	print(rand_rotation)
+	#print(rand_rotation)
 
 
 func randSpin() -> float:

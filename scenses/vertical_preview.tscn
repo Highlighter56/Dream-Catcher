@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b3gcww01148nr"]
+[gd_scene load_steps=17 format=3 uid="uid://b3gcww01148nr"]
 
 [ext_resource type="Script" path="res://scripts/two_d/vertical/player_2d_vertical.gd" id="1_avs8q"]
 [ext_resource type="Script" path="res://scripts/game_manager_h_v.gd" id="1_f4a4k"]
@@ -7,6 +7,8 @@
 [ext_resource type="AudioStream" uid="uid://dujcccecv87l2" path="res://assests/sounds/explosion.wav" id="3_c5y3p"]
 [ext_resource type="Script" path="res://scripts/two_d/horizontal/path_follow_2d.gd" id="3_q5wiu"]
 [ext_resource type="AudioStream" uid="uid://bfu6i4jq211jq" path="res://assests/sounds/GoRight-trimmed.wav" id="3_wy64a"]
+[ext_resource type="AudioStream" uid="uid://dcdh76n8jokxo" path="res://assests/sounds/error.mp3" id="4_cirbl"]
+[ext_resource type="AudioStream" uid="uid://fbukdcotrbts" path="res://assests/sounds/coin.wav" id="4_j1nwg"]
 [ext_resource type="Texture2D" uid="uid://cuw52a0l88qyn" path="res://assests/sprites/Star.png" id="4_wdq14"]
 [ext_resource type="Script" path="res://scripts/two_d/horizontal/asteriod_2d.gd" id="5_ujehw"]
 
@@ -30,13 +32,21 @@ radius = 24.794
 [node name="Game_Manager" type="Node2D" parent="."]
 script = ExtResource("1_f4a4k")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Game_Manager"]
+[node name="Go_Left" type="AudioStreamPlayer2D" parent="Game_Manager"]
 stream = ExtResource("2_dl4nl")
 bus = &"Vocals"
 
-[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="Game_Manager"]
+[node name="Go_Right" type="AudioStreamPlayer2D" parent="Game_Manager"]
 stream = ExtResource("3_wy64a")
 bus = &"Vocals"
+
+[node name="Coin" type="AudioStreamPlayer2D" parent="Game_Manager"]
+stream = ExtResource("4_j1nwg")
+bus = &"Effects"
+
+[node name="Wrong_Side" type="AudioStreamPlayer2D" parent="Game_Manager"]
+stream = ExtResource("4_cirbl")
+bus = &"Effects"
 
 [node name="Progression_Area" type="Area2D" parent="Game_Manager"]
 position = Vector2(0, 100)
@@ -51,24 +61,24 @@ position = Vector2(0, -4)
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_0rbm4")
 
-[node name="Player2D" type="CharacterBody2D" parent="."]
-visible = false
+[node name="Player" type="CharacterBody2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_avs8q")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
 texture = ExtResource("2_30dgu")
 region_enabled = true
 region_rect = Rect2(131, 73, 25, 23)
 
-[node name="Area2D" type="Area2D" parent="Player2D" groups=["player"]]
+[node name="Area2D" type="Area2D" parent="Player" groups=["player"]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
 position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_28e48")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player2D"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player"]
 stream = ExtResource("3_c5y3p")
-bus = &"Explotion"
+bus = &"Effects"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -121)
@@ -77,22 +87,22 @@ zoom = Vector2(4, 4)
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_0f7fj")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(0, -25.9942)
+[node name="Asteriod" type="PathFollow2D" parent="Path2D"]
+position = Vector2(0, -350)
 rotation = 1.5708
-progress = 324.0
 script = ExtResource("3_q5wiu")
 
-[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D" groups=["asteriod"]]
+[node name="Area2D" type="Area2D" parent="Path2D/Asteriod" groups=["asteriod"]]
 
-[node name="Sprite2D" type="Sprite2D" parent="Path2D/PathFollow2D/Area2D"]
+[node name="Asteriod_Sprite" type="Sprite2D" parent="Path2D/Asteriod/Area2D"]
+unique_name_in_owner = true
 scale = Vector2(2, 2)
 texture = ExtResource("4_wdq14")
 region_enabled = true
 region_rect = Rect2(64, 32, 32, 31)
 script = ExtResource("5_ujehw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/Asteriod/Area2D"]
 shape = SubResource("CircleShape2D_uhd2q")
 
 [node name="Label" type="Label" parent="."]
@@ -102,8 +112,8 @@ offset_right = 205.0
 offset_bottom = 68.0
 text = "For This Mode, Have the Resolution be 720,1280"
 
-[connection signal="area_entered" from="Game_Manager/Progression_Area" to="." method="_on_progression_area_area_entered"]
-[connection signal="area_entered" from="Game_Manager/Progression_Area" to="Path2D/PathFollow2D/Area2D/Sprite2D" method="_on_progression_area_area_entered"]
+[connection signal="area_entered" from="Game_Manager/Progression_Area" to="Game_Manager" method="_on_progression_area_area_entered"]
+[connection signal="area_entered" from="Game_Manager/Progression_Area" to="Path2D/Asteriod/Area2D/Asteriod_Sprite" method="_on_progression_area_area_entered"]
 [connection signal="area_entered" from="Game_Manager/Check_Sides" to="Game_Manager" method="_on_check_sides_area_entered"]
-[connection signal="area_entered" from="Player2D/Area2D" to="Player2D" method="_on_area_2d_area_entered"]
-[connection signal="area_entered" from="Path2D/PathFollow2D/Area2D" to="Path2D/PathFollow2D/Area2D/Sprite2D" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Player/Area2D" to="Player" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Path2D/Asteriod/Area2D" to="Path2D/Asteriod/Area2D/Asteriod_Sprite" method="_on_area_2d_area_entered"]
