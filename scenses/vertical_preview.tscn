@@ -61,6 +61,43 @@ position = Vector2(0, -4)
 position = Vector2(0, 5)
 shape = SubResource("CircleShape2D_0rbm4")
 
+[node name="Flags" type="Control" parent="Game_Manager"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LaneJump" type="Button" parent="Game_Manager/Flags"]
+offset_left = 4.0
+offset_top = -274.0
+offset_right = 90.0
+offset_bottom = -243.0
+text = "LaneJump"
+
+[node name="AsteriodSpeed" type="Label" parent="Game_Manager/Flags"]
+layout_mode = 0
+offset_left = -94.0
+offset_top = -274.0
+offset_right = -10.0
+offset_bottom = -251.0
+text = "Speed: 000"
+
+[node name="SlowDown" type="Button" parent="Game_Manager/Flags/AsteriodSpeed"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 29.0
+offset_right = 34.0
+offset_bottom = 60.0
+text = "-10"
+
+[node name="SpeedUp" type="Button" parent="Game_Manager/Flags/AsteriodSpeed"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 29.0
+offset_right = 77.0
+offset_bottom = 60.0
+text = "+10"
+
 [node name="Player" type="CharacterBody2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_avs8q")
@@ -88,9 +125,11 @@ zoom = Vector2(4, 4)
 curve = SubResource("Curve2D_0f7fj")
 
 [node name="Asteriod" type="PathFollow2D" parent="Path2D"]
+unique_name_in_owner = true
 position = Vector2(0, -350)
 rotation = 1.5708
 script = ExtResource("3_q5wiu")
+move_speed = 210.0
 
 [node name="Area2D" type="Area2D" parent="Path2D/Asteriod" groups=["asteriod"]]
 
@@ -115,5 +154,9 @@ text = "For This Mode, Have the Resolution be 720,1280"
 [connection signal="area_entered" from="Game_Manager/Progression_Area" to="Game_Manager" method="_on_progression_area_area_entered"]
 [connection signal="area_entered" from="Game_Manager/Progression_Area" to="Path2D/Asteriod/Area2D/Asteriod_Sprite" method="_on_progression_area_area_entered"]
 [connection signal="area_entered" from="Game_Manager/Check_Sides" to="Game_Manager" method="_on_check_sides_area_entered"]
+[connection signal="pressed" from="Game_Manager/Flags/LaneJump" to="Player" method="_on_lane_jump_pressed"]
+[connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/SlowDown" to="Path2D/Asteriod" method="_on_slow_down_pressed"]
+[connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/SpeedUp" to="Path2D/Asteriod" method="_on_speed_up_pressed"]
 [connection signal="area_entered" from="Player/Area2D" to="Player" method="_on_area_2d_area_entered"]
+[connection signal="updateSpeedDisplay" from="Path2D/Asteriod" to="Game_Manager" method="_on_asteriod_update_speed_display"]
 [connection signal="area_entered" from="Path2D/Asteriod/Area2D" to="Path2D/Asteriod/Area2D/Asteriod_Sprite" method="_on_area_2d_area_entered"]

@@ -36,6 +36,11 @@ point_count = 2
 [node name="Game" type="Node3D"]
 script = SubResource("GDScript_yrpaa")
 
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "For This Mode, It actualy looks really cool at  720,1280 resolution"
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.768254, 0.406459, -0.494547, 0.559053, -0.0496655, 0.827643, 0.311841, -0.912318, -0.265388, -15.7996, 9.46931, 0)
 shadow_enabled = true

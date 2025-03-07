@@ -8,13 +8,17 @@ var lane: int = 0:
 	set(value):
 		lane = clamp(value,-1,1)
 
-#@export var movment_curve : Curve
-#var time: float = 0:
-	#set(value):
-		#if time>1:
-			#time=0
-		#else:
-			#time=value
+# ---Flag Variables---
+var canMoveTwoLanes: bool = false
+var laneJump: int:
+	get():
+		if canMoveTwoLanes:
+			return 2
+		return 1
+
+func _on_lane_jump_pressed() -> void:
+	canMoveTwoLanes=!canMoveTwoLanes
+
 
 func _ready() -> void:
 	visible = true
@@ -22,10 +26,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_left"):
 		#print("Move Left")
-		lane-=10
+		lane-= laneJump
 	if Input.is_action_just_pressed("ui_right"):
 		#print("Move Right")
-		lane+=10
+		lane+= laneJump
 	#print(position)
 
 

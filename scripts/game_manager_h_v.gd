@@ -10,6 +10,15 @@ var score: int = 0
 enum sides {LEFT, RIGHT}
 var correct_side: sides
 
+
+# --- Flags ---
+@onready var asteriod_speed: Label = $Flags/AsteriodSpeed
+
+func _on_asteriod_update_speed_display(value: int) -> void:
+	asteriod_speed.text = "Speed: "+str(value)
+
+
+
 func _ready() -> void:
 	await get_tree().create_timer(1).timeout
 	correct_side = choose_side()

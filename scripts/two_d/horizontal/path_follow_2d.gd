@@ -5,6 +5,18 @@ extends PathFollow2D
 #70
 @export var move_speed:float = 70
 
+# ---Flags---
+func _on_speed_up_pressed() -> void:
+	move_speed+=10
+	emit_signal("updateSpeedDisplay", move_speed)
+
+func _on_slow_down_pressed() -> void:
+	move_speed-=10
+	emit_signal("updateSpeedDisplay", move_speed)
+
+signal updateSpeedDisplay(value:int)
+# ---Flags---
+
 
 func _ready() -> void:
 	pass
