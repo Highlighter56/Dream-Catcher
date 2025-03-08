@@ -1,5 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://4g4hmpt2jeo8"]
+[gd_scene load_steps=9 format=3 uid="uid://4g4hmpt2jeo8"]
 
+[ext_resource type="Script" path="res://scripts/swpie_detector.gd" id="1_x7it1"]
+[ext_resource type="Texture2D" uid="uid://cl667d536smrf" path="res://icon.svg" id="2_gpe3p"]
 [ext_resource type="PackedScene" uid="uid://crm8r6mpelhr8" path="res://scenses/grid_map.tscn" id="5_msg7q"]
 [ext_resource type="PackedScene" uid="uid://8i6cpk5bnffs" path="res://scenses/player_v2.tscn" id="5_uhyxa"]
 [ext_resource type="PackedScene" uid="uid://cyj1qleqsi2md" path="res://scenses/asteroid.tscn" id="6_r2out"]
@@ -10,6 +12,13 @@ script/source = "extends Node3D
 @onready var path: PathFollow3D = %MainAsteriodPath
 
 @export var move_speed:float = 50
+
+# ---Flags---
+func _on_to_main_menu_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://scenses/main_menu.tscn\")
+# ---Flags---
+
+
 
 func _ready() -> void:
 	pass
@@ -37,10 +46,18 @@ point_count = 2
 script = SubResource("GDScript_yrpaa")
 move_speed = 200.0
 
+[node name="SwipeDetection" type="Node2D" parent="."]
+script = ExtResource("1_x7it1")
+
 [node name="Label" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
 text = "For This Mode, It actualy looks really cool at  720,1280 resolution"
+
+[node name="toMainMenu" type="TouchScreenButton" parent="."]
+position = Vector2(632, 1133)
+scale = Vector2(1.07813, 1.03125)
+texture_normal = ExtResource("2_gpe3p")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.768254, 0.406459, -0.494547, 0.559053, -0.0496655, 0.827643, 0.311841, -0.912318, -0.265388, -15.7996, 9.46931, 0)
@@ -72,5 +89,8 @@ transform = Transform3D(0.260161, 2.98995e-05, 0.965571, -0.280875, 0.956763, 0.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 50)
 shape = SubResource("SphereShape3D_6gylj")
 
+[connection signal="swipeLeft" from="SwipeDetection" to="Player_V2" method="_on_swipe_detection_swipe_left"]
+[connection signal="swipeRight" from="SwipeDetection" to="Player_V2" method="_on_swipe_detection_swipe_right"]
+[connection signal="pressed" from="toMainMenu" to="." method="_on_to_main_menu_pressed"]
 [connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]
 [connection signal="area_entered" from="Area3D" to="Path3D/MainAsteriodPath/Asteroid" method="_on_area_3d_area_entered"]

@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8mhndt5tfj02"]
+
+[ext_resource type="Script" path="res://scripts/game_manager_mm.gd" id="1_rig4v"]
+[ext_resource type="Texture2D" uid="uid://cl667d536smrf" path="res://icon.svg" id="2_bf30g"]
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="Game_Manager_MM" type="Node2D" parent="."]
+script = ExtResource("1_rig4v")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="Title" type="Label" parent="."]
+offset_left = -54.0
+offset_top = -101.0
+offset_right = 63.0
+offset_bottom = -78.0
+text = "Dream Catcher"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -31.0
+offset_top = -49.0
+offset_right = 32.0
+offset_bottom = -26.0
+text = "Load 3D"
+
+[node name="load_3D" type="TouchScreenButton" parent="Control/Label"]
+position = Vector2(12, 25)
+scale = Vector2(0.304688, 0.289063)
+texture_normal = ExtResource("2_bf30g")
+
+[node name="Label2" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -31.0
+offset_top = 42.0
+offset_right = 32.0
+offset_bottom = 65.0
+text = "Load 2D"
+
+[node name="load_2D" type="TouchScreenButton" parent="Control/Label2"]
+position = Vector2(9, 28)
+scale = Vector2(0.34375, 0.289063)
+texture_normal = ExtResource("2_bf30g")
+
+[connection signal="pressed" from="Control/Label/load_3D" to="Game_Manager_MM" method="_on_load_3d_pressed"]
+[connection signal="pressed" from="Control/Label2/load_2D" to="Game_Manager_MM" method="_on_load_2d_pressed"]

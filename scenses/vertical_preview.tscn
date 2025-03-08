@@ -1,17 +1,17 @@
 [gd_scene load_steps=19 format=3 uid="uid://b3gcww01148nr"]
 
 [ext_resource type="Script" path="res://scripts/two_d/vertical/player_2d_vertical.gd" id="1_avs8q"]
-[ext_resource type="Script" path="res://scripts/game_manager_h_v.gd" id="1_f4a4k"]
+[ext_resource type="Script" path="res://scripts/two_d/vertical/game_manager_h_v.gd" id="1_f4a4k"]
 [ext_resource type="Texture2D" uid="uid://ec30ugv00s74" path="res://assests/sprites/Door.png" id="2_30dgu"]
 [ext_resource type="AudioStream" uid="uid://bybnkrqtod0p1" path="res://assests/sounds/GoLeft-trimmed.wav" id="2_dl4nl"]
 [ext_resource type="Script" path="res://scripts/swpie_detector.gd" id="2_rsmcr"]
 [ext_resource type="AudioStream" uid="uid://dujcccecv87l2" path="res://assests/sounds/explosion.wav" id="3_c5y3p"]
-[ext_resource type="Script" path="res://scripts/two_d/horizontal/path_follow_2d.gd" id="3_q5wiu"]
+[ext_resource type="Script" path="res://scripts/two_d/vertical/path_follow_2d.gd" id="3_q5wiu"]
 [ext_resource type="AudioStream" uid="uid://bfu6i4jq211jq" path="res://assests/sounds/GoRight-trimmed.wav" id="3_wy64a"]
 [ext_resource type="AudioStream" uid="uid://dcdh76n8jokxo" path="res://assests/sounds/error.mp3" id="4_cirbl"]
 [ext_resource type="AudioStream" uid="uid://fbukdcotrbts" path="res://assests/sounds/coin.wav" id="4_j1nwg"]
 [ext_resource type="Texture2D" uid="uid://cuw52a0l88qyn" path="res://assests/sprites/Star.png" id="4_wdq14"]
-[ext_resource type="Script" path="res://scripts/two_d/horizontal/asteriod_2d.gd" id="5_ujehw"]
+[ext_resource type="Script" path="res://scripts/two_d/vertical/asteriod_2d.gd" id="5_ujehw"]
 [ext_resource type="Texture2D" uid="uid://cl667d536smrf" path="res://icon.svg" id="6_wvssw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wsy85"]
@@ -121,6 +121,11 @@ offset_right = 93.0
 offset_bottom = -256.0
 text = "LaneJump"
 
+[node name="toMainMenu" type="TouchScreenButton" parent="Game_Manager/Flags"]
+position = Vector2(61, -48)
+scale = Vector2(0.25, 0.226563)
+texture_normal = ExtResource("6_wvssw")
+
 [node name="Player" type="CharacterBody2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_avs8q")
@@ -182,6 +187,7 @@ text = "For This Mode, Have the Resolution be 720,1280"
 [connection signal="pressed" from="Game_Manager/Flags/touch_lanJump" to="Player" method="_on_touch_lan_jump_pressed"]
 [connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/Speed/touch_button_speed" to="Path2D/Asteriod" method="_on_touch_button_speed_pressed"]
 [connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/Slow/touch_button_slow" to="Path2D/Asteriod" method="_on_touch_button_slow_pressed"]
+[connection signal="pressed" from="Game_Manager/Flags/toMainMenu" to="Game_Manager" method="_on_to_main_menu_pressed"]
 [connection signal="area_entered" from="Player/Area2D" to="Player" method="_on_area_2d_area_entered"]
 [connection signal="updateSpeedDisplay" from="Path2D/Asteriod" to="Game_Manager" method="_on_asteriod_update_speed_display"]
 [connection signal="area_entered" from="Path2D/Asteriod/Area2D" to="Path2D/Asteriod/Area2D/Asteriod_Sprite" method="_on_area_2d_area_entered"]

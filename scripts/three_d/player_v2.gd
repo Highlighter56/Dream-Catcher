@@ -8,21 +8,26 @@ var lane: int = 0:
 
 
 func _ready() -> void:
-	#	Set Screen Dementions
-	#ProjectSettings.set_setting("display/window/size/viewport_width", 1280)
-	#ProjectSettings.set_setting("display/window/size/viewport_height", 780)
 	pass
 
+# Swipe Movment
+func _on_swipe_detection_swipe_left() -> void:
+	lane-=1
+func _on_swipe_detection_swipe_right() -> void:
+	lane+=1
+
 func _process(delta: float) -> void:
+#	Keyboard Movement
 	if Input.is_action_just_pressed("ui_right"):
-		print("Move Right")
+		#print("Move Right")
 		lane+=1
 	if Input.is_action_just_pressed("ui_left"):
-		print("Move Left")
+		#print("Move Left")
 		lane-=1
 
 
 func _physics_process(delta: float) -> void:
+#	Move Player
 	match lane:
 		1:
 			if position.x<SWIPE_DISTANCE:
@@ -36,6 +41,5 @@ func _physics_process(delta: float) -> void:
 		-1:
 			if position.x>-SWIPE_DISTANCE:
 				velocity.x = -SPEED*delta
-	#print(str(lane)+", "+str(velocity)+", "+str(position.x))
 	move_and_slide()
 	velocity.x=0

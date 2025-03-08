@@ -13,10 +13,12 @@ var correct_side: sides
 
 # --- Flags ---
 @onready var asteriod_speed: Label = $Flags/AsteriodSpeed
-
+# Display Asteriod Speed
 func _on_asteriod_update_speed_display(value: int) -> void:
 	asteriod_speed.text = "Speed: "+str(value)
-# --- Flags ---
+# Switch Scene to Main Menu
+func _on_to_main_menu_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenses/main_menu.tscn")# --- Flags ---
 
 
 func _ready() -> void:
