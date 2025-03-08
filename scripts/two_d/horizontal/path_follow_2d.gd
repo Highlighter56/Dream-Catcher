@@ -6,15 +6,25 @@ extends PathFollow2D
 @export var move_speed:float = 70
 
 # ---Flags---
-func _on_speed_up_pressed() -> void:
+#func _on_speed_up_pressed() -> void:
+	#move_speed+=10
+	#emit_signal("updateSpeedDisplay", move_speed)
+#
+#func _on_slow_down_pressed() -> void:
+	#move_speed-=10
+	#emit_signal("updateSpeedDisplay", move_speed)
+
+signal updateSpeedDisplay(value:int)
+
+func _on_touch_button_speed_pressed() -> void:
 	move_speed+=10
 	emit_signal("updateSpeedDisplay", move_speed)
 
-func _on_slow_down_pressed() -> void:
+func _on_touch_button_slow_pressed() -> void:
 	move_speed-=10
 	emit_signal("updateSpeedDisplay", move_speed)
 
-signal updateSpeedDisplay(value:int)
+
 # ---Flags---
 
 

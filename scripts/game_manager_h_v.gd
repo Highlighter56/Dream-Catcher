@@ -16,7 +16,7 @@ var correct_side: sides
 
 func _on_asteriod_update_speed_display(value: int) -> void:
 	asteriod_speed.text = "Speed: "+str(value)
-
+# --- Flags ---
 
 
 func _ready() -> void:
@@ -40,20 +40,20 @@ func _on_progression_area_area_entered(area: Area2D) -> void:
 
 func _on_check_sides_area_entered(area: Area2D) -> void:
 	if area.is_in_group("asteriod"):
-		print("Check Sides")
+		#print("Check Sides")
 		if (correct_side == sides.LEFT):
 			if (player.position.x < 0):
-				print("Correct Side")
+				#print("Correct Side")
 				audio_coin.play()
 			else:
-				print("Wrong Side")
+				#print("Wrong Side")
 				audio_wrong_side.play()
 		else:
 			if (player.position.x > 0):
-				print("Correct Side")
+				#print("Correct Side")
 				audio_coin.play()
 			else:
-				print("Wrong Side")
+				#print("Wrong Side")
 				audio_wrong_side.play()
 
 

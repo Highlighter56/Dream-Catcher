@@ -16,30 +16,34 @@ var laneJump: int:
 			return 2
 		return 1
 
-func _on_lane_jump_pressed() -> void:
+#func _on_lane_jump_pressed() -> void:
+
+func _on_touch_lan_jump_pressed() -> void:
 	canMoveTwoLanes=!canMoveTwoLanes
+# ---Flag Varaibles---
 
 
 func _ready() -> void:
 	visible = true
 
+
+# Swipe Movment
+func _on_swpie_detector_swipe_left() -> void:
+	lane-= laneJump
+func _on_swpie_detector_swipe_right() -> void:
+	lane+= laneJump
+
+
 func _process(delta: float) -> void:
+#	Non-Swipe Movment
 	if Input.is_action_just_pressed("ui_left"):
-		#print("Move Left")
 		lane-= laneJump
 	if Input.is_action_just_pressed("ui_right"):
-		#print("Move Right")
 		lane+= laneJump
-	#print(position)
 
 
 func _physics_process(delta: float) -> void:
-	
-#	Testing Curve
-	#time += delta
-	#print(int(movment_curve.sample(time)*10))
-	
-#	Player Move
+#	Move Player
 	match lane:
 		1:
 			if position.x<SWIPE_DISTANCE:
@@ -53,12 +57,11 @@ func _physics_process(delta: float) -> void:
 		-1:
 			if position.x>-SWIPE_DISTANCE:
 				velocity.x = -SPEED*delta
-	#print(str(lane)+", "+str(velocity)+", "+str(position.x))
 	move_and_slide()
 	velocity.x=0
 
-
+# Player takes Damage
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("asteriod"):
-		print("Player Takes Damage")
+		#print("Player Takes Damage")
 		audio_player.play()
