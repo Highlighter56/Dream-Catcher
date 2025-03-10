@@ -21,12 +21,12 @@ func _physics_process(delta: float) -> void:
 		if startPos.distance_to(currentPos) >= length:
 			isSwiping = false
 			if startPos.x > currentPos.x:
-				print("Swipe Left")
+				#print("Swipe Left")
 				swipeLeft.emit()
 			else:
-				print("Swipe Right")
+				#print("Swipe Right")
 				swipeRight.emit()
 	else:
 		isSwiping = false
 	
-	print(startPos, currentPos)
+	#print(startPos, currentPos)

@@ -1,6 +1,5 @@
 extends PathFollow2D
-
-@onready var asteroid: Area3D = $Asteroid
+# Path Follow Asteriod Main
 
 #70
 @export var move_speed:float = 70
@@ -23,8 +22,6 @@ func _on_touch_button_speed_pressed() -> void:
 func _on_touch_button_slow_pressed() -> void:
 	move_speed-=10
 	emit_signal("updateSpeedDisplay", move_speed)
-
-
 # ---Flags---
 
 

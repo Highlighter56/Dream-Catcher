@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b3gcww01148nr"]
+[gd_scene load_steps=22 format=3 uid="uid://b3gcww01148nr"]
 
 [ext_resource type="Script" path="res://scripts/two_d/vertical/player_2d_vertical.gd" id="1_avs8q"]
 [ext_resource type="Script" path="res://scripts/two_d/vertical/game_manager_h_v.gd" id="1_f4a4k"]
@@ -6,13 +6,14 @@
 [ext_resource type="AudioStream" uid="uid://bybnkrqtod0p1" path="res://assests/sounds/GoLeft-trimmed.wav" id="2_dl4nl"]
 [ext_resource type="Script" path="res://scripts/swpie_detector.gd" id="2_rsmcr"]
 [ext_resource type="AudioStream" uid="uid://dujcccecv87l2" path="res://assests/sounds/explosion.wav" id="3_c5y3p"]
-[ext_resource type="Script" path="res://scripts/two_d/vertical/path_follow_2d.gd" id="3_q5wiu"]
+[ext_resource type="Script" path="res://scripts/two_d/vertical/path_follow_asteriod_main.gd" id="3_q5wiu"]
 [ext_resource type="AudioStream" uid="uid://bfu6i4jq211jq" path="res://assests/sounds/GoRight-trimmed.wav" id="3_wy64a"]
 [ext_resource type="AudioStream" uid="uid://dcdh76n8jokxo" path="res://assests/sounds/error.mp3" id="4_cirbl"]
 [ext_resource type="AudioStream" uid="uid://fbukdcotrbts" path="res://assests/sounds/coin.wav" id="4_j1nwg"]
 [ext_resource type="Texture2D" uid="uid://cuw52a0l88qyn" path="res://assests/sprites/Star.png" id="4_wdq14"]
 [ext_resource type="Script" path="res://scripts/two_d/vertical/asteriod_2d.gd" id="5_ujehw"]
 [ext_resource type="Texture2D" uid="uid://cl667d536smrf" path="res://icon.svg" id="6_wvssw"]
+[ext_resource type="Script" path="res://scripts/path_follow_asteriod_side.gd" id="14_o3bmj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wsy85"]
 
@@ -29,6 +30,18 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_uhd2q"]
 radius = 24.794
 
+[sub_resource type="Curve2D" id="Curve2D_sfq4g"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -50, -350, 0, 0, 0, 0, -50, 100)
+}
+point_count = 2
+
+[sub_resource type="Curve2D" id="Curve2D_hkh4c"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 50, -350, 0, 0, 0, 0, 50, 100)
+}
+point_count = 2
+
 [node name="VerticalPreview" type="Node2D"]
 
 [node name="Game_Manager" type="Node2D" parent="."]
@@ -37,19 +50,21 @@ script = ExtResource("1_f4a4k")
 [node name="SwpieDetector" type="Node2D" parent="Game_Manager"]
 script = ExtResource("2_rsmcr")
 
-[node name="Go_Left" type="AudioStreamPlayer2D" parent="Game_Manager"]
+[node name="Audio_Nodes" type="Node2D" parent="Game_Manager"]
+
+[node name="Go_Left" type="AudioStreamPlayer2D" parent="Game_Manager/Audio_Nodes"]
 stream = ExtResource("2_dl4nl")
 bus = &"Vocals"
 
-[node name="Go_Right" type="AudioStreamPlayer2D" parent="Game_Manager"]
+[node name="Go_Right" type="AudioStreamPlayer2D" parent="Game_Manager/Audio_Nodes"]
 stream = ExtResource("3_wy64a")
 bus = &"Vocals"
 
-[node name="Coin" type="AudioStreamPlayer2D" parent="Game_Manager"]
+[node name="Coin" type="AudioStreamPlayer2D" parent="Game_Manager/Audio_Nodes"]
 stream = ExtResource("4_j1nwg")
 bus = &"Effects"
 
-[node name="Wrong_Side" type="AudioStreamPlayer2D" parent="Game_Manager"]
+[node name="Wrong_Side" type="AudioStreamPlayer2D" parent="Game_Manager/Audio_Nodes"]
 stream = ExtResource("4_cirbl")
 bus = &"Effects"
 
@@ -110,9 +125,6 @@ position = Vector2(1, 24)
 scale = Vector2(0.234375, 0.203125)
 texture_normal = ExtResource("6_wvssw")
 
-[node name="TouchScreenButton" type="TouchScreenButton" parent="Game_Manager/Flags"]
-position = Vector2(-82, -194)
-
 [node name="Label" type="Label" parent="Game_Manager/Flags"]
 layout_mode = 0
 offset_left = 15.0
@@ -125,6 +137,14 @@ text = "LaneJump"
 position = Vector2(61, -48)
 scale = Vector2(0.25, 0.226563)
 texture_normal = ExtResource("6_wvssw")
+
+[node name="Score" type="Label" parent="Game_Manager/Flags"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = -221.0
+offset_right = 83.0
+offset_bottom = -198.0
+text = "Score: 0"
 
 [node name="Player" type="CharacterBody2D" parent="."]
 unique_name_in_owner = true
@@ -149,19 +169,19 @@ bus = &"Effects"
 position = Vector2(0, -121)
 zoom = Vector2(4, 4)
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="Path_Asteriod_Main" type="Path2D" parent="."]
 curve = SubResource("Curve2D_0f7fj")
 
-[node name="Asteriod" type="PathFollow2D" parent="Path2D"]
+[node name="Asteriod" type="PathFollow2D" parent="Path_Asteriod_Main"]
 unique_name_in_owner = true
 position = Vector2(0, -350)
 rotation = 1.5708
 script = ExtResource("3_q5wiu")
 move_speed = 140.0
 
-[node name="Area2D" type="Area2D" parent="Path2D/Asteriod" groups=["asteriod"]]
+[node name="Area2D" type="Area2D" parent="Path_Asteriod_Main/Asteriod" groups=["asteriod"]]
 
-[node name="Asteriod_Sprite" type="Sprite2D" parent="Path2D/Asteriod/Area2D"]
+[node name="Asteriod_Sprite" type="Sprite2D" parent="Path_Asteriod_Main/Asteriod/Area2D"]
 unique_name_in_owner = true
 scale = Vector2(2, 2)
 texture = ExtResource("4_wdq14")
@@ -169,7 +189,49 @@ region_enabled = true
 region_rect = Rect2(64, 32, 32, 31)
 script = ExtResource("5_ujehw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/Asteriod/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path_Asteriod_Main/Asteriod/Area2D"]
+shape = SubResource("CircleShape2D_uhd2q")
+
+[node name="Path_Asteriod_Left" type="Path2D" parent="."]
+curve = SubResource("Curve2D_sfq4g")
+
+[node name="Asteriod" type="PathFollow2D" parent="Path_Asteriod_Left"]
+position = Vector2(-50, -350)
+rotation = 1.5708
+script = ExtResource("14_o3bmj")
+my_side = -1
+
+[node name="Area2D" type="Area2D" parent="Path_Asteriod_Left/Asteriod" groups=["asteriod"]]
+
+[node name="Asteriod_Sprite" type="Sprite2D" parent="Path_Asteriod_Left/Asteriod/Area2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("4_wdq14")
+region_enabled = true
+region_rect = Rect2(64, 32, 32, 31)
+script = ExtResource("5_ujehw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path_Asteriod_Left/Asteriod/Area2D"]
+shape = SubResource("CircleShape2D_uhd2q")
+
+[node name="Path_Asteriod_Right" type="Path2D" parent="."]
+curve = SubResource("Curve2D_hkh4c")
+
+[node name="Asteriod" type="PathFollow2D" parent="Path_Asteriod_Right"]
+position = Vector2(50, -350)
+rotation = 1.5708
+script = ExtResource("14_o3bmj")
+my_side = 1
+
+[node name="Area2D" type="Area2D" parent="Path_Asteriod_Right/Asteriod" groups=["asteriod"]]
+
+[node name="Asteriod_Sprite" type="Sprite2D" parent="Path_Asteriod_Right/Asteriod/Area2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("4_wdq14")
+region_enabled = true
+region_rect = Rect2(64, 32, 32, 31)
+script = ExtResource("5_ujehw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path_Asteriod_Right/Asteriod/Area2D"]
 shape = SubResource("CircleShape2D_uhd2q")
 
 [node name="Label" type="Label" parent="."]
@@ -179,15 +241,19 @@ offset_right = 205.0
 offset_bottom = 68.0
 text = "For This Mode, Have the Resolution be 720,1280"
 
+[connection signal="send_side_asteriods" from="Game_Manager" to="Path_Asteriod_Left/Asteriod" method="_on_game_manager_send_side_asteriods"]
+[connection signal="send_side_asteriods" from="Game_Manager" to="Path_Asteriod_Right/Asteriod" method="_on_game_manager_send_side_asteriods"]
 [connection signal="swipeLeft" from="Game_Manager/SwpieDetector" to="Player" method="_on_swpie_detector_swipe_left"]
 [connection signal="swipeRight" from="Game_Manager/SwpieDetector" to="Player" method="_on_swpie_detector_swipe_right"]
 [connection signal="area_entered" from="Game_Manager/Progression_Area" to="Game_Manager" method="_on_progression_area_area_entered"]
-[connection signal="area_entered" from="Game_Manager/Progression_Area" to="Path2D/Asteriod/Area2D/Asteriod_Sprite" method="_on_progression_area_area_entered"]
+[connection signal="area_entered" from="Game_Manager/Progression_Area" to="Path_Asteriod_Main/Asteriod/Area2D/Asteriod_Sprite" method="_on_progression_area_area_entered"]
 [connection signal="area_entered" from="Game_Manager/Check_Sides" to="Game_Manager" method="_on_check_sides_area_entered"]
 [connection signal="pressed" from="Game_Manager/Flags/touch_lanJump" to="Player" method="_on_touch_lan_jump_pressed"]
-[connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/Speed/touch_button_speed" to="Path2D/Asteriod" method="_on_touch_button_speed_pressed"]
-[connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/Slow/touch_button_slow" to="Path2D/Asteriod" method="_on_touch_button_slow_pressed"]
+[connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/Speed/touch_button_speed" to="Path_Asteriod_Main/Asteriod" method="_on_touch_button_speed_pressed"]
+[connection signal="pressed" from="Game_Manager/Flags/AsteriodSpeed/Slow/touch_button_slow" to="Path_Asteriod_Main/Asteriod" method="_on_touch_button_slow_pressed"]
 [connection signal="pressed" from="Game_Manager/Flags/toMainMenu" to="Game_Manager" method="_on_to_main_menu_pressed"]
 [connection signal="area_entered" from="Player/Area2D" to="Player" method="_on_area_2d_area_entered"]
-[connection signal="updateSpeedDisplay" from="Path2D/Asteriod" to="Game_Manager" method="_on_asteriod_update_speed_display"]
-[connection signal="area_entered" from="Path2D/Asteriod/Area2D" to="Path2D/Asteriod/Area2D/Asteriod_Sprite" method="_on_area_2d_area_entered"]
+[connection signal="updateSpeedDisplay" from="Path_Asteriod_Main/Asteriod" to="Game_Manager" method="_on_asteriod_update_speed_display"]
+[connection signal="area_entered" from="Path_Asteriod_Main/Asteriod/Area2D" to="Path_Asteriod_Main/Asteriod/Area2D/Asteriod_Sprite" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Path_Asteriod_Left/Asteriod/Area2D" to="Path_Asteriod_Left/Asteriod/Area2D/Asteriod_Sprite" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Path_Asteriod_Right/Asteriod/Area2D" to="Path_Asteriod_Right/Asteriod/Area2D/Asteriod_Sprite" method="_on_area_2d_area_entered"]
